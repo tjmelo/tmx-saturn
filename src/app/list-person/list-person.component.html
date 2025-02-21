@@ -1,0 +1,18 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (person of toListPerson(); track person.id) {
+            <tr>
+                <th scope="row">{{ person.id }}</th>
+                <td>{{ person.firstName }}</td>
+                <td>{{ person.lastName }}</td>
+            </tr>
+        }
+    </tbody>
+</table>
