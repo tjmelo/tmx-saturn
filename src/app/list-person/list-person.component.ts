@@ -1,13 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { ListPersonService } from './list-person.service';
+import { CrudService } from '../../services/crud.service';
 import { AlertServiceService } from '../../services/alert-service.service';
 
 interface Person {
   id: number;
-  firstName: string;
-  lastName: string;
+  username: string
+  name: string;
+  email: string;
 }
 
 @Component({
@@ -16,25 +17,26 @@ interface Person {
   templateUrl: './list-person.component.html',
   styleUrl: './list-person.component.scss',
   imports: [FormsModule],
-  providers: [ListPersonService, AlertServiceService]
+  providers: [CrudService, AlertServiceService]
 })
 
-export class ListPersonComponent {
+export class ListPersonComponent implements OnInit{
   private readonly alertService = inject(AlertServiceService);
-  private readonly listPersonService = inject(ListPersonService);
-  private readonly listUsers = signal([]);
+  private readonly readPerson = inject(CrudService);
+  private readonly listUsers = signal<Person[]>([]);
 
   ngOnInit() {
     this.getListPersonAPI();
   }
-  
-  getListPersonAPI = async (): Promise<void> => {
-    const { users } =  await this.listPersonService.getPerson();
-    this.listUsers.set(users);
-  }
 
+  getListPersonAPI = async (): Promise<any> => {
+    this.readPerson.toReadUser().subscribe((users: any) => {
+      return this.listUsers.set(users);
+    });
+  }
+  
   toListPerson(): Person[] {
-    return this.listUsers()
+    return this.listUsers();
   }
 
   alert() {

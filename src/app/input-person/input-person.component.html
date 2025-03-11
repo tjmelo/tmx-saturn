@@ -7,7 +7,8 @@
             placeholder="Username" 
             aria-label="Username" 
             aria-describedby="basic-addon1"
+            [(ngModel)]="name"
         >
-        <button type="button" class="btn btn-primary btn-lg">+</button>
+        <button type="button" class="btn btn-primary btn-lg" (click)="add()">+</button>
     </div>
 </div>
